@@ -1,14 +1,26 @@
 import React, { useContext } from "react";
 import { Link } from "react-router-dom";
-import { Button } from "antd";
+import { Button, notification } from "antd";
 import authContext from "../context/authContext";
 
 const Home = () => {
-  const { auth } = useContext(authContext);
+  const { auth, setAuth } = useContext(authContext);
   const isAuthenticated = auth.isAuthenticated;
   const level = auth.user && auth.user.level;
+  const logoutHandler = () => {
+    setAuth({
+      isAuthenticated: false,
+      user: {},
+    });
+    localStorage.removeItem("user");
+    notification.success({
+      message: "Logout Success",
+      description: "You have been logged out",
+    });
+  };
+
   return (
-    <div style={{margin:"auto"}}>
+    <div style={{ margin: "auto" }}>
       {isAuthenticated && level <= 2 && (
         <Link to="/forms/needle-stick">
           <Button size="large" type="dashed" block>
@@ -38,7 +50,7 @@ const Home = () => {
           </Button>
         </Link>
       ) : (
-        <Button size="large" color="warning" type="primary" block>
+        <Button onClick={logoutHandler} size="large" color="warning" type="primary" block>
           LOGOUT
         </Button>
       )}
