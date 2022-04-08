@@ -10,6 +10,7 @@ import { Layout } from "antd";
 import AppHeader from "./Components/Header/Header";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Protect from "./Components/Layout/Protect";
+import Admin from "./Pages/Admin/Admin";
 function App() {
   // get user from local storage
   const localUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
@@ -41,6 +42,7 @@ function App() {
             isAuthenticated: false,
             user: {},
           });
+          localStorage.removeItem("user");
         },
       }}
     >
@@ -72,6 +74,14 @@ function App() {
                 element={
                   <Protect level={1}>
                     <Dashboard />
+                  </Protect>
+                }
+              />
+               <Route
+                path="/admin"
+                element={
+                  <Protect level={0}>
+                    <Admin />
                   </Protect>
                 }
               />

@@ -4,15 +4,11 @@ import { Button, notification } from "antd";
 import authContext from "../context/authContext";
 
 const Home = () => {
-  const { auth, setAuth } = useContext(authContext);
+  const { auth, logout } = useContext(authContext);
   const isAuthenticated = auth.isAuthenticated;
   const level = auth.user && auth.user.level;
   const logoutHandler = () => {
-    setAuth({
-      isAuthenticated: false,
-      user: {},
-    });
-    localStorage.removeItem("user");
+    logout();
     notification.success({
       message: "Logout Success",
       description: "You have been logged out",

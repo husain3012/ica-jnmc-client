@@ -30,12 +30,14 @@ const columns = [
     dataIndex: "form",
     key: "reportingTime",
     render: (text, record) => <span>{dayjs(text.reportingTime).format("DD/MM/YYYY, hh:mm a")}</span>,
-    responsive: ["lg"],
+    responsive: ["md"],
   },
   {
     title: "Next Visit",
     dataIndex: "",
     key: "",
+    responsive: ["md"],
+
     render: (text, record) => {
       const today = new Date().getTime(text.thirdVisit);
 
@@ -79,7 +81,6 @@ const columns = [
       );
     },
 
-    responsive: ["lg"],
   },
 
   {
