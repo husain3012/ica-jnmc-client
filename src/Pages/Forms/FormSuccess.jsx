@@ -29,21 +29,22 @@ const FormSuccess = () => {
   return isLoading ? (
     <div>Loading...</div>
   ) : formData ? (
-    <div>
+    <div style={{maxWidth:"900px", margin:"auto"}}>
       <h1>Set Reminders!</h1>
       <p>Hi {formData.form.name},</p>
       <p>You have successfully submitted your form.</p>
       <p>
-        We will send you a reminder email on {dayjs(formData.firstVisit).format("DD-MMM-YYYY")} and {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}!
+        Kindly visit on {dayjs(formData.firstVisit).format("DD-MMM-YYYY")},  {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}
       </p>
-      <p>Just in case, add reminders to your calendar by clicking the buttons below.</p>
+      <Divider/>
+      <p>We will try sending an email to remind you! Add reminders to your google calendar by clicking the buttons below.</p>
       <div style={{ maxWidth: "900px", margin: "auto" }}>
         <a
           href={
             generateCalendarLinks({
               name: formData.form.name,
               startTime: formData.firstVisit,
-              appointmentType: "First Visit",
+              appointmentType: "First",
             }).google
           }
           target="_blank"
