@@ -11,6 +11,7 @@ import AppHeader from "./Components/Header/Header";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Protect from "./Components/Layout/Protect";
 import Admin from "./Pages/Admin/Admin";
+import FormSuccess from "./Pages/Forms/FormSuccess";
 function App() {
   // get user from local storage
   const localUser = localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null;
@@ -21,11 +22,6 @@ function App() {
   });
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${auth.user?.token}`;
-
-
-
-  
-
 
   return (
     <AuthContext.Provider
@@ -56,8 +52,16 @@ function App() {
               <Route
                 path="/forms/needle-stick"
                 element={
-                  <Protect level={2}>
+                  <Protect level={4}>
                     <NeedleStick />
+                  </Protect>
+                }
+              />
+              <Route
+                path="/forms/success/:id"
+                element={
+                  <Protect level={4}>
+                    <FormSuccess />
                   </Protect>
                 }
               />
@@ -77,7 +81,7 @@ function App() {
                   </Protect>
                 }
               />
-               <Route
+              <Route
                 path="/admin"
                 element={
                   <Protect level={0}>

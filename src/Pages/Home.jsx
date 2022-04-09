@@ -16,8 +16,8 @@ const Home = () => {
   };
 
   return (
-    <div style={{ margin: "auto" }}>
-      {isAuthenticated && level <= 2 && (
+    <div style={{ margin: "auto", display: "flex", flexDirection: "column", gap: "15px", maxWidth: "600px" }}>
+      {isAuthenticated && level <= 4 && (
         <Link to="/forms/needle-stick">
           <Button size="large" type="dashed" block>
             NEW FORM
@@ -34,17 +34,24 @@ const Home = () => {
       )}
       {isAuthenticated && level <= 0 && (
         <Link to="/admin">
-          <Button size="large" type="link" block>
+          <Button size="large" block>
             Admin
           </Button>
         </Link>
       )}
       {!isAuthenticated ? (
-        <Link to="/login">
-          <Button size="large" type="primary" block>
-            LOGIN
-          </Button>
-        </Link>
+        <>
+          <Link to="/login">
+            <Button size="large" type="primary" block>
+              LOGIN
+            </Button>
+          </Link>
+          <Link to="/login?username=guest&password=guest">
+            <Button size="large" type="dashed" block>
+              Guest Login
+            </Button>
+          </Link>
+        </>
       ) : (
         <Button onClick={logoutHandler} size="large" color="warning" type="primary" block>
           LOGOUT

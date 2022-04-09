@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { Form, Input, InputNumber, Cascader, Select, Row, Col, Checkbox, Button, AutoComplete, Radio, DatePicker, notification } from "antd";
 import dayjs from "dayjs";
 import weekday from "dayjs/plugin/weekday";
 import localeData from "dayjs/plugin/localeData";
 import axios from "axios";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, Link } from "react-router-dom";
 import { useMediaQuery } from "react-responsive";
+import authContext from "../../context/authContext";
 dayjs.extend(weekday);
 dayjs.extend(localeData);
 const { Option } = Select;
@@ -17,6 +18,7 @@ const NeedleStick = () => {
   const [isLoading, setIsLoading] = useState(false);
   const isMobile = useMediaQuery({ query: "(max-width: 767px)" });
   const navigate = useNavigate();
+  const { auth } = useContext(authContext);
 
   useEffect(() => {
     if (id) {
@@ -67,7 +69,7 @@ const NeedleStick = () => {
             message: "Success",
             description: "Form submitted successfully",
           });
-          navigate("/", { replace: true });
+          navigate("/forms/success/" + resp.data.newForm.id, { replace: true });
         }
       }
       setIsLoading(false);
@@ -81,8 +83,17 @@ const NeedleStick = () => {
     }
   };
 
+  const initialValues = {
+    injuryTime: dayjs(),
+    reportingTime: dayjs(),
+    email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "",
+  };
+
   return (
-    <Form labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} form={form} name="needle-stick" onFinish={onFinish} scrollToFirstError>
+    <Form initialValues={initialValues} labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} form={form} name="needle-stick" onFinish={onFinish} scrollToFirstError>
+      <Form.Item name="email" label="Email" rules={[{ required: true }]}>
+        <Input type="email" />
+      </Form.Item>
       <Form.Item name="name" label="Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>
@@ -181,7 +192,7 @@ const NeedleStick = () => {
           <Radio value="no">No</Radio>
         </Radio.Group>
       </Form.Item>
-      <Form.Item name="immunoglobulinGiven" label="HBV given (If not vaccinated):">
+      <Form.Item name="immunoglobulinGiven" label="HB immunoglobin given :">
         <Radio.Group>
           <Radio value="yes">Yes</Radio>
           <Radio value="no">No</Radio>
@@ -207,6 +218,10 @@ const NeedleStick = () => {
         <Button loading={isLoading} type="primary" htmlType="submit">
           {id ? "Update" : "Submit"}
         </Button>
+
+        <Link style={{ marginLeft: "10px" }} to="/">
+          <Button>Cancel</Button>
+        </Link>
       </Form.Item>
     </Form>
   );

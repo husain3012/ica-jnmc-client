@@ -3,18 +3,27 @@ import { Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import authContext from "../../context/authContext";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate, useSearchParams } from "react-router-dom";
 
 const Login = () => {
   const navigate = useNavigate();
   const { login, auth } = useContext(authContext);
   const [loading, setLoading] = useState(false);
+  const [loginParams] = useSearchParams();
+
+  const initialValues = {
+    username: loginParams.get("username") || "",
+    password: loginParams.get("password") || "",
+    remember: false,
+  };
+
   useEffect(() => {
     if (auth.isAuthenticated) {
       navigate("/");
     }
   }, [auth.isAuthenticated, navigate]);
   const onFinish = async (values) => {
+    const { remember, username } = values;
     console.log("Received values of form: ", values);
     try {
       setLoading(true);
@@ -23,7 +32,11 @@ const Login = () => {
       if (res.status === 200) {
         login(res.data.user);
         // save user to local storage
-        localStorage.setItem("user", JSON.stringify(res.data.user));
+        if (remember && username !== "guest") {
+          localStorage.setItem("user", JSON.stringify(res.data.user));
+        } else {
+          localStorage.removeItem("user");
+        }
         navigate("/");
       }
       setLoading(false);
@@ -39,11 +52,13 @@ const Login = () => {
 
   return (
     <Form
+      style={{
+        maxWidth: "400px",
+        margin: "auto",
+      }}
       name="normal_login"
       className="login-form"
-      initialValues={{
-        remember: true,
-      }}
+      initialValues={initialValues}
       onFinish={onFinish}
     >
       <Form.Item
@@ -55,7 +70,7 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="User ID Or Email" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -68,21 +83,28 @@ const Login = () => {
       >
         <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
       </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
-        {/* link to mail */}
+      {loginParams.get("password") ? null : (
+        <Form.Item>
+          <Form.Item name="remember" valuePropName="checked" noStyle>
+            <Checkbox>Remember me</Checkbox>
+          </Form.Item>
+          {/* link to mail */}
 
-        <a className="login-form-forgot" href="mailto:husainshahidrao@gmail.com?subject=Change Password for ICA-JNMC&body=send your username and the new password to this mail">
-          Forgot password
-        </a>
-      </Form.Item>
+          <a className="login-form-forgot" href="mailto:husainshahidrao@gmail.com?subject=Change Password for ICA-JNMC&body=send your username and the new password to this mail">
+            Forgot password
+          </a>
+        </Form.Item>
+      )}
 
       <Form.Item>
         <Button loading={loading} type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
+        <Link to="/" style={{ marginLeft: "10px" }}>
+          <Button  htmlType="button" className="login-form-button">
+            Go Back
+          </Button>
+        </Link>
       </Form.Item>
     </Form>
   );
