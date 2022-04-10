@@ -21,6 +21,9 @@ const Login = () => {
     if (auth.isAuthenticated) {
       navigate("/");
     }
+    return () => {
+      setLoading(false);
+    };
   }, [auth.isAuthenticated, navigate]);
   const onFinish = async (values) => {
     const { remember, password } = values;
@@ -31,7 +34,7 @@ const Login = () => {
         username,
         password,
       });
-      console.log(res.data);
+
       if (res.status === 200) {
         login(res.data.user);
         // save user to local storage

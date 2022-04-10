@@ -8,7 +8,9 @@ const Protect = ({ level, children }) => {
   useEffect(() => {
     if (userLevel > level) {
       navigate("/");
+      return () => {};
     }
+    return () => {};
   }, [level, navigate, userLevel]);
   if (userLevel <= level) {
     return children;

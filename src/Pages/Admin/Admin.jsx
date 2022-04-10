@@ -8,7 +8,6 @@ const Admin = () => {
   const createUserSubmitHandler = async (values) => {
     try {
       const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/signup", values);
-      console.log(res.data);
       if (res.status === 200) {
         notification.success({
           message: "User Created",

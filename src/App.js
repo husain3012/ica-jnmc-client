@@ -22,7 +22,6 @@ function App() {
   });
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${auth.user?.token}`;
-  console.log(auth)
 
   return (
     <AuthContext.Provider

@@ -20,7 +20,7 @@ const FormSuccess = () => {
       if (id) {
         setIsLoading(true);
         const res = await axios.get(process.env.REACT_APP_BACKEND + `/api/form/get/${id}`);
-        console.log(res.data);
+      
         if (res.status === 200) {
           setFormData(res.data);
         }

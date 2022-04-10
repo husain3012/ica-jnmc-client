@@ -27,7 +27,7 @@ const NeedleStick = () => {
         .get(process.env.REACT_APP_BACKEND + `/api/form/get/${id}`)
         .then((res) => {
           if (res.status === 200) {
-            console.log(res.data);
+          
             setIsVaccinatedForHBV(res.data.form.isVaccinatedForHBV);
             // change date fields to dayjs object
             const formData = {
@@ -48,7 +48,7 @@ const NeedleStick = () => {
   }, [form, id]);
 
   const onFinish = async (values) => {
-    console.log("Received values of form: ", values);
+
     try {
       if (id) {
         setIsLoading(true);

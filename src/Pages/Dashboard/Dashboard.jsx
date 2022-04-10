@@ -64,7 +64,7 @@ const columns = [
         startTime: nextAppointment.toISOString().split("T")[0].split("-").join(""),
         endTime: dayjs(nextAppointment).add(1.5, "day").toISOString().split("T")[0].split("-").join(""),
       };
-      console.log(event);
+  
       // make calendar url from event object
       const AddToCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name}&dates=${event.startTime}/${event.endTime}&details=${event.details}&location=${event.location}&sf=true&output=xml`;
 
@@ -128,7 +128,7 @@ const Dashboard = () => {
             };
           });
           setData(mappedData);
-          console.log(resp.data);
+          
         }
       } catch (error) {
         setIsError(true);
