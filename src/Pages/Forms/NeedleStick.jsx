@@ -91,9 +91,6 @@ const NeedleStick = () => {
 
   return (
     <Form initialValues={initialValues} labelCol={{ span: 8 }} wrapperCol={{ span: 12 }} form={form} name="needle-stick" onFinish={onFinish} scrollToFirstError>
-      <Form.Item name="email" label="Email" rules={[{ required: true }]}>
-        <Input type="email" />
-      </Form.Item>
       <Form.Item name="name" label="Name" rules={[{ required: true }]}>
         <Input />
       </Form.Item>

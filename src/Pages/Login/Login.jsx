@@ -23,11 +23,14 @@ const Login = () => {
     }
   }, [auth.isAuthenticated, navigate]);
   const onFinish = async (values) => {
-    const { remember, username } = values;
-    console.log("Received values of form: ", values);
+    const { remember, password } = values;
+    const username = values.username.trim();
     try {
       setLoading(true);
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/login", values);
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/login", {
+        username,
+        password,
+      });
       console.log(res.data);
       if (res.status === 200) {
         login(res.data.user);
@@ -101,7 +104,7 @@ const Login = () => {
           Log in
         </Button>
         <Link to="/" style={{ marginLeft: "10px" }}>
-          <Button  htmlType="button" className="login-form-button">
+          <Button htmlType="button" className="login-form-button">
             Go Back
           </Button>
         </Link>

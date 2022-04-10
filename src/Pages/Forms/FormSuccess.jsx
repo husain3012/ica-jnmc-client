@@ -1,15 +1,19 @@
-import React, { useEffect, useState } from "react";
-import { Button, Divider, Space } from "antd";
+import React, { useEffect, useState, useContext } from "react";
+import { Button, Divider, Form, Space, Input, notification } from "antd";
 import dayjs from "dayjs";
-import { GoogleOutlined } from "@ant-design/icons";
+import { GoogleOutlined, MailOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
 import axios from "axios";
+import authContext from "../../context/authContext";
 import generateCalendarLinks from "../../utils/calendar-link";
 const FormSuccess = () => {
+  const { auth } = useContext(authContext);
   const { id } = useParams();
 
   const [formData, setFormData] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [isSetReminderLoading, setIsSetReminderLoading] = useState(false);
+  const [remindersSet, setRemindersSet] = useState(false);
 
   useEffect(() => {
     const asyncFunc = async () => {
@@ -25,19 +29,45 @@ const FormSuccess = () => {
     };
     asyncFunc();
   }, [id]);
+  const [reminderForm] = Form.useForm();
+
+  const reminderFormHandler = async (values) => {
+    setIsSetReminderLoading(true);
+    try {
+      const res = await axios.post(process.env.REACT_APP_BACKEND + `/api/form/reminder/${id}`, {
+        email: values.email,
+        phoneNumber: values.phoneNumber,
+      });
+      if (res.status === 200) {
+        notification.success({
+          message: "Success",
+          description: "Reminder set successfully",
+        });
+        reminderForm.resetFields();
+        setRemindersSet(res.data);
+      }
+    } catch (error) {
+      console.log(error);
+      notification.error({
+        message: "Error",
+        description: "Error setting reminder",
+      });
+    }
+    setIsSetReminderLoading(false);
+  };
 
   return isLoading ? (
     <div>Loading...</div>
   ) : formData ? (
-    <div style={{maxWidth:"900px", margin:"auto"}}>
+    <div style={{ maxWidth: "900px", margin: "auto" }}>
       <h1>Set Reminders!</h1>
       <p>Hi {formData.form.name},</p>
       <p>You have successfully submitted your form.</p>
       <p>
-        Kindly visit on {dayjs(formData.firstVisit).format("DD-MMM-YYYY")},  {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}
+        Kindly visit on {dayjs(formData.firstVisit).format("DD-MMM-YYYY")}, {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}
       </p>
-      <Divider/>
-      <p>We will try sending an email to remind you! Add reminders to your google calendar by clicking the buttons below.</p>
+      <Divider />
+      <p>Sign up for email and whatsapp reminders, or add reminders to your google calendar by clicking the buttons below.</p>
       <div style={{ maxWidth: "900px", margin: "auto" }}>
         <a
           href={
@@ -86,9 +116,25 @@ const FormSuccess = () => {
           </Button>
         </a>
         <Divider />
+        <Form form={reminderForm} initialValues={{ email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "" }} style={{ margin: "auto" }} layout="inline" onFinish={reminderFormHandler} name="reminder_form">
+          <Form.Item name="email" rules={[{ required: true, message: "Email is required!" }]}>
+            <Input prefix={<MailOutlined />} type="email" placeholder="Email" />
+          </Form.Item>
+
+          <Form.Item name="phoneNumber">
+            <Input prefix={<WhatsAppOutlined />} type="number" minLength={10} maxLength={10} placeholder="Whatsapp Number" />
+          </Form.Item>
+          <Form.Item>
+            <Button disabled={remindersSet} loading={isSetReminderLoading} type="primary" htmlType="submit">
+              Sign up for reminders!
+            </Button>
+          </Form.Item>
+        </Form>
+        <Divider />
+
         <Link to="/">
           <Button type="link" size="large" block>
-           Go Home
+            Go Home
           </Button>
         </Link>
       </div>
