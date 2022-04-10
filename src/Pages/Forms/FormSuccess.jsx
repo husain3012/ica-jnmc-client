@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Button, Divider, Form, Space, Input, notification } from "antd";
+import { Button, Divider, Form, Space, Input, notification, Tag } from "antd";
 import dayjs from "dayjs";
 import { GoogleOutlined, MailOutlined, WhatsAppOutlined } from "@ant-design/icons";
 import { Link, useParams } from "react-router-dom";
@@ -20,7 +20,7 @@ const FormSuccess = () => {
       if (id) {
         setIsLoading(true);
         const res = await axios.get(process.env.REACT_APP_BACKEND + `/api/form/get/${id}`);
-      
+
         if (res.status === 200) {
           setFormData(res.data);
         }
@@ -64,7 +64,9 @@ const FormSuccess = () => {
       <p>Hi {formData.form.name},</p>
       <p>You have successfully submitted your form.</p>
       <p>
-        Kindly visit on {dayjs(formData.firstVisit).format("DD-MMM-YYYY")}, {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}
+        Kindly visit on:
+        <br />
+        {dayjs(formData.firstVisit).format("DD-MMM-YYYY")}, {dayjs(formData.secondVisit).format("DD-MMM-YYYY")} and {dayjs(formData.thirdVisit).format("DD-MMM-YYYY")}
       </p>
       <Divider />
       <p>Sign up for email and whatsapp reminders, or add reminders to your google calendar by clicking the buttons below.</p>
@@ -116,15 +118,22 @@ const FormSuccess = () => {
           </Button>
         </a>
         <Divider />
-        <Form form={reminderForm} initialValues={{ email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "" }} style={{ margin: "auto", maxWidth:"80%" }} layout="inline" onFinish={reminderFormHandler} name="reminder_form">
-          <Form.Item style={{margin:"10px auto"}} name="email" rules={[{ required: true, message: "Email is required!" }]}>
-            <Input prefix={<MailOutlined style={{color:"#EA4335", opacity:0.5}} />} type="email" placeholder="Email" />
+        <Form
+          form={reminderForm}
+          initialValues={{ email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "" }}
+          style={{ margin: "auto", maxWidth: "720px" }}
+          layout="inline"
+          onFinish={reminderFormHandler}
+          name="reminder_form"
+        >
+          <Form.Item style={{ margin: "10px auto" }} name="email" rules={[{ required: true, message: "Email is required!" }]}>
+            <Input prefix={<MailOutlined style={{ color: "#EA4335", opacity: 0.5 }} />} type="email" placeholder="Email" />
           </Form.Item>
 
-          <Form.Item style={{margin:"10px auto"}} name="phoneNumber">
-            <Input prefix={<WhatsAppOutlined style={{color:"#128C7E", opacity:0.5}} />} type="number" minLength={10} maxLength={10} placeholder="Whatsapp (optional)" />
+          <Form.Item style={{ margin: "10px auto" }} name="phoneNumber">
+            <Input prefix={<WhatsAppOutlined style={{ color: "#128C7E", opacity: 0.5 }} />} type="number" minLength={10} maxLength={10} placeholder="Whatsapp (optional)" />
           </Form.Item>
-          <Form.Item style={{margin:"10px auto"}}>
+          <Form.Item style={{ margin: "10px auto" }}>
             <Button disabled={remindersSet} loading={isSetReminderLoading} type="primary" htmlType="submit">
               Sign up for reminders!
             </Button>
