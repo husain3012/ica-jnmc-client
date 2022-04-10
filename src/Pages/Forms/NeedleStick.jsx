@@ -219,9 +219,7 @@ const NeedleStick = () => {
           {id ? "Update" : "Submit"}
         </Button>
 
-        <Link style={{ marginLeft: "10px" }} to="/">
-          <Button>Cancel</Button>
-        </Link>
+        <Button style={{marginLeft:10}} onClick={() => navigate(-1)}>Cancel</Button>
       </Form.Item>
     </Form>
   );
