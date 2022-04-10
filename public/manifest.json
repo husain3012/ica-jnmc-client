@@ -1,6 +1,6 @@
 {
-  "short_name": "ICA JNMC",
-  "name": "Infection Control Automation",
+  "short_name": "PEP JNMC",
+  "name": "Post Exposure Prophylaxis, JNMC",
   "icons": [
     {
       "src": "./logo.png",
@@ -10,6 +10,6 @@
   ],
   "start_url": "/",
   "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "theme_color": "#1572A1",
+  "background_color": "#EEF2FF"
 }
