@@ -16,7 +16,7 @@ const Home = () => {
   };
 
   return (
-    <div style={{ margin: "auto", display: "flex", flexDirection: "column", gap: "15px", maxWidth: "600px" }}>
+    <div style={{ margin: "auto", display: "flex", flexDirection: "column", gap: "15px", maxWidth: "500px" }}>
       {isAuthenticated && level <= 4 && (
         <Link to="/forms/needle-stick">
           <Button size="large" type="dashed" block>
@@ -34,7 +34,7 @@ const Home = () => {
       )}
       {isAuthenticated && level <= 0 && (
         <Link to="/admin">
-          <Button size="large" block>
+          <Button danger type="ghost" size="large" block>
             Admin
           </Button>
         </Link>
@@ -53,7 +53,7 @@ const Home = () => {
           </Link>
         </>
       ) : (
-        <Button onClick={logoutHandler} size="large" color="warning" type="primary" block>
+        <Button onClick={logoutHandler} size="large" danger type="primary" block>
           LOGOUT
         </Button>
       )}

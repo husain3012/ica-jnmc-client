@@ -22,6 +22,7 @@ function App() {
   });
 
   axios.defaults.headers.common["Authorization"] = `Bearer ${auth.user?.token}`;
+  console.log(auth)
 
   return (
     <AuthContext.Provider
@@ -45,7 +46,7 @@ function App() {
       <Layout>
         <BrowserRouter>
           <AppHeader />
-          <Layout.Content style={{ padding: "50px" }}>
+          <Layout.Content style={{ padding: "50px", minHeight:"calc(100vh - 64px)" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
