@@ -116,15 +116,15 @@ const FormSuccess = () => {
           </Button>
         </a>
         <Divider />
-        <Form form={reminderForm} initialValues={{ email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "" }} style={{ margin: "auto" }} layout="inline" onFinish={reminderFormHandler} name="reminder_form">
-          <Form.Item name="email" rules={[{ required: true, message: "Email is required!" }]}>
-            <Input prefix={<MailOutlined />} type="email" placeholder="Email" />
+        <Form form={reminderForm} initialValues={{ email: auth.isAuthenticated && auth.user.user_id !== "guest" ? auth.user.email : "" }} style={{ margin: "auto", maxWidth:"80%" }} layout="inline" onFinish={reminderFormHandler} name="reminder_form">
+          <Form.Item style={{margin:"10px auto"}} name="email" rules={[{ required: true, message: "Email is required!" }]}>
+            <Input prefix={<MailOutlined style={{color:"#EA4335", opacity:0.5}} />} type="email" placeholder="Email" />
           </Form.Item>
 
-          <Form.Item name="phoneNumber">
-            <Input prefix={<WhatsAppOutlined />} type="number" minLength={10} maxLength={10} placeholder="Whatsapp Number" />
+          <Form.Item style={{margin:"10px auto"}} name="phoneNumber">
+            <Input prefix={<WhatsAppOutlined style={{color:"#128C7E", opacity:0.5}} />} type="number" minLength={10} maxLength={10} placeholder="Whatsapp (optional)" />
           </Form.Item>
-          <Form.Item>
+          <Form.Item style={{margin:"10px auto"}}>
             <Button disabled={remindersSet} loading={isSetReminderLoading} type="primary" htmlType="submit">
               Sign up for reminders!
             </Button>
