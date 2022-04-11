@@ -46,7 +46,7 @@ const Home = () => {
               LOGIN
             </Button>
           </Link>
-          <Link to="/login?username=guest&password=guest">
+          <Link to="/login?username=guest&password=guest@pepjnmc">
             <Button size="large" type="dashed" block>
               Guest Login
             </Button>
