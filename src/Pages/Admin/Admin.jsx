@@ -1,10 +1,65 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Input, Button, Checkbox, notification, Divider, Select } from "antd";
+import { Form, Input, Button, Checkbox, notification, Divider, Select, Table, message } from "antd";
+import dayjs from "dayjs";
 const { Option } = Select;
+const columns = [
+  {
+    title: "Email",
+    dataIndex: "email",
+    key: "email",
+    responsive: ["md"],
+    
+  },
+  {
+    title: "User ID",
+    dataIndex: "user_id",
+    key: "user_id",
+  },
+  {
+    title: "Access Level",
+    dataIndex: "level",
+    key: "level",
+  },
+  {
+    title: "Created At",
+    dataIndex: "createdAt",
+    key: "createdAt",
+    render: (text, record) => <span>{dayjs(text).format("DD-MMM-YYYY, hh:mm a")}</span>,
+    responsive: ["md"],
+
+  },
+];
+
 const Admin = () => {
   const [createUserForm] = Form.useForm();
   const [isLoadingCreate, setIsLoadingCreate] = useState(false);
+  const [isLoadingUses, setIsLoadingUsers] = useState(false);
+  const [usersData, setUsersData] = useState([]);
+  const fetchUsers = async () => {
+    try {
+      setIsLoadingUsers(true);
+      const res = await axios.get(process.env.REACT_APP_BACKEND + "/api/user/all");
+      if (res.status === 200) {
+        const mappedData = res.data.map((item) => {
+          return {
+            ...item,
+            key: item.id,
+          };
+        });
+        setUsersData(mappedData);
+        message.success("Users fetched successfully");
+      }
+    } catch (error) {
+      console.log(error);
+      message.error("Error fetching users");
+    } finally {
+      setIsLoadingUsers(false);
+    }
+  };
+  useEffect(() => {
+    fetchUsers();
+  }, []);
 
   const createUserSubmitHandler = async (values) => {
     setIsLoadingCreate(true);
@@ -15,6 +70,7 @@ const Admin = () => {
           message: "User Created",
           description: "User created successfully",
         });
+        fetchUsers();
       }
     } catch (error) {
       notification.error({
@@ -91,6 +147,9 @@ const Admin = () => {
           </Form.Item>
         </Form>
       </div>
+      <Divider />
+      <h2>Registered Users</h2>
+      <Table columns={columns} dataSource={usersData} loading={isLoadingUses} />
     </div>
   );
 };
