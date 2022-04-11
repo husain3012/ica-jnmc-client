@@ -1,14 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import { Form, Input, Button, Checkbox, notification, Divider, Select } from "antd";
 const { Option } = Select;
 const Admin = () => {
   const [createUserForm] = Form.useForm();
+  const [isLoadingCreate, setIsLoadingCreate] = useState(false);
 
   const createUserSubmitHandler = async (values) => {
+    setIsLoadingCreate(true);
     try {
       const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/signup", values);
-      if (res.status === 200) {
+      if (res.status === 201) {
         notification.success({
           message: "User Created",
           description: "User created successfully",
@@ -21,6 +23,7 @@ const Admin = () => {
       });
       console.log(error);
     }
+    setIsLoadingCreate(false);
   };
   return (
     <div>
@@ -82,7 +85,7 @@ const Admin = () => {
           </Form.Item>
 
           <Form.Item>
-            <Button type="primary" htmlType="submit" className="login-form-button">
+            <Button loading={isLoadingCreate} type="primary" htmlType="submit" className="login-form-button">
               Create User
             </Button>
           </Form.Item>
