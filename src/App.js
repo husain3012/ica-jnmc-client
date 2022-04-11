@@ -8,6 +8,7 @@ import NotFound from "./Pages/404";
 import axios from "axios";
 import { Layout } from "antd";
 import AppHeader from "./Components/Header/Header";
+import AppFooter from "./Components/Footer/Footer";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Protect from "./Components/Layout/Protect";
 import Admin from "./Pages/Admin/Admin";
@@ -45,7 +46,7 @@ function App() {
       <Layout>
         <BrowserRouter>
           <AppHeader />
-          <Layout.Content style={{ padding: "50px", minHeight:"calc(100vh - 64px)" }}>
+          <Layout.Content style={{ padding: "50px", minHeight: "calc(100vh - 138px)" }}>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/login" element={<Login />} />
@@ -68,7 +69,7 @@ function App() {
               <Route
                 path="/forms/needle-stick/:id"
                 element={
-                  <Protect level={2}>
+                  <Protect level={1}>
                     <NeedleStick />
                   </Protect>
                 }
@@ -89,10 +90,12 @@ function App() {
                   </Protect>
                 }
               />
+              <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout.Content>
         </BrowserRouter>
+        <AppFooter />
       </Layout>
     </AuthContext.Provider>
   );
