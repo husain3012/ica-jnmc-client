@@ -40,7 +40,7 @@ const NeedleStick = () => {
               injuryTime: dayjs(res.data.form.injuryTime),
               injuryDate: dayjs(res.data.form.injuryTime),
             };
-            console.log(formData);
+ 
             form.setFieldsValue(formData);
           }
         })
@@ -58,8 +58,8 @@ const NeedleStick = () => {
 
   const onFinish = async (values) => {
     // combine date and time fields
-    const reportingTime = dayjs(values.reportingTime.format("YYYY-MM-DD") + " " + values.reportingTime.format("HH:mm:ss"));
-    const injuryTime = dayjs(values.injuryTime.format("YYYY-MM-DD") + " " + values.injuryTime.format("HH:mm:ss"));
+    const reportingTime = dayjs(values.reportingDate.format("YYYY-MM-DD") + " " + values.reportingTime.format("HH:mm:ss"));
+    const injuryTime = dayjs(values.injuryDate.format("YYYY-MM-DD") + " " + values.injuryTime.format("HH:mm:ss"));
     delete values.reportingDate;
     delete values.injuryDate;
     const formData = {
