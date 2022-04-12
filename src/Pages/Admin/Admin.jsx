@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { Form, Input, Button, Checkbox, notification, Divider, Select, Table, message } from "antd";
+import { Form, Input, Button, Checkbox, notification, Divider, Select, Table, message, Drawer, Popconfirm } from "antd";
 import dayjs from "dayjs";
 const { Option } = Select;
 const columns = [
@@ -9,7 +9,6 @@ const columns = [
     dataIndex: "email",
     key: "email",
     responsive: ["md"],
-    
   },
   {
     title: "User ID",
@@ -27,15 +26,47 @@ const columns = [
     key: "createdAt",
     render: (text, record) => <span>{dayjs(text).format("DD-MMM-YYYY, hh:mm a")}</span>,
     responsive: ["md"],
-
   },
 ];
+
+const DrawerMenu = ({ onClose, visible }) => {
+  
+  const triggerEmailReminders = async () => {
+   
+
+    try {
+      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/settings/sendReminders");
+      if (res.status === 200) {
+        message.success("Email reminders sent successfully");
+      }
+      return res;
+    } catch (error) {
+      console.log(error);
+      message.error("Error sending email reminders");
+      return error;
+    }
+  };
+  return (
+    <Drawer title="Basic Drawer" placement="right" onClose={onClose} visible={visible}>
+      <Popconfirm
+        title="Are you sure? Pending reminders will be sent to all users."
+        onConfirm={triggerEmailReminders}
+        // onCancel={cancel}
+        okText="Yes"
+        cancelText="No"
+      >
+        <Button type="primary">Trigger Email Reminders</Button>
+      </Popconfirm>
+    </Drawer>
+  );
+};
 
 const Admin = () => {
   const [createUserForm] = Form.useForm();
   const [isLoadingCreate, setIsLoadingCreate] = useState(false);
   const [isLoadingUses, setIsLoadingUsers] = useState(false);
   const [usersData, setUsersData] = useState([]);
+  const [showDrawerMenu, setShowDrawerMenu] = useState(false);
   const fetchUsers = async () => {
     try {
       setIsLoadingUsers(true);
@@ -83,7 +114,13 @@ const Admin = () => {
   };
   return (
     <div>
-      <h1>Admin</h1>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+        <h1>Admin</h1>
+        <Button type="primary" onClick={() => setShowDrawerMenu(true)}>
+          Actions
+        </Button>
+      </div>
+      <DrawerMenu onClose={() => setShowDrawerMenu(false)} visible={showDrawerMenu} />
       <Divider />
       <div style={{ maxWidth: 400 }}>
         <h2>Create User</h2>
