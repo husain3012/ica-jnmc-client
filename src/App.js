@@ -12,6 +12,7 @@ import AppFooter from "./Components/Footer/Footer";
 import Dashboard from "./Pages/Dashboard/Dashboard";
 import Protect from "./Components/Layout/Protect";
 import Admin from "./Pages/Admin/Admin";
+import About from "./Pages/About";
 import FormSuccess from "./Pages/Forms/FormSuccess";
 function App() {
   // get user from local storage
@@ -90,12 +91,13 @@ function App() {
                   </Protect>
                 }
               />
+              <Route path="/about" element={<About />} />
               <Route path="/404" element={<NotFound />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Layout.Content>
-        </BrowserRouter>
         <AppFooter />
+        </BrowserRouter>
       </Layout>
     </AuthContext.Provider>
   );
