@@ -1,22 +1,39 @@
-import React, { useContext, useEffect } from "react";
-import authContext from "../../context/authContext";
-import { useNavigate } from "react-router-dom";
+import React, { useEffect } from "react";
+import authAtom from "../../context/authAtom";
+import { useRouter } from "next/router";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { Spin } from "antd";
+
+const publicPaths = ["/", "/login"];
 const Protect = ({ level, children }) => {
-  const navigate = useNavigate();
-  const { auth } = useContext(authContext);
+  level = level || Infinity;
+  const router = useRouter();
+  const [auth, setAuthState] = useRecoilState(authAtom);
   const userLevel = auth.user?.level || Infinity;
   useEffect(() => {
+    const currentUrl = router.asPath.split("?")[0];
+    setAuthState((prev) => ({
+      ...prev,
+      showContent: false,
+    }));
+
+    if (!auth.isAuthenticated && !publicPaths.includes(currentUrl)) {
+      router.replace(`/login?redirect=${currentUrl}`);
+      return;
+    }
     if (userLevel > level) {
-      navigate("/");
+      router.push("/");
       return () => {};
     }
-    return () => {};
-  }, [level, navigate, userLevel]);
-  if (userLevel <= level) {
-    return children;
-  }
+    setAuthState((prev) => ({
+      ...prev,
+      showContent: true,
+    }));
+  }, [auth.isAuthenticated, level, router, setAuthState, userLevel]);
 
-  return <h1>Unauthorized, redirecting...</h1>;
+  return (
+    <Spin spinning={!auth.showContent}>{auth.showContent && children}</Spin>
+  );
 };
 
 export default Protect;

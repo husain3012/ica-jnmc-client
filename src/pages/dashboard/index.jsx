@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { Table, Tag, Space } from "antd";
-import { Link } from "react-router-dom";
+import Link from "next/link";
 import dayjs from "dayjs";
 import { BellTwoTone } from "@ant-design/icons";
+import Protect from "../../Components/Layout/Protect";
 const columns = [
   {
     title: "Name",
@@ -29,7 +30,9 @@ const columns = [
     title: "Reporting Time",
     dataIndex: "form",
     key: "reportingTime",
-    render: (text, record) => <span>{dayjs(text.reportingTime).format("DD/MM/YYYY, hh:mm a")}</span>,
+    render: (text, record) => (
+      <span>{dayjs(text.reportingTime).format("DD/MM/YYYY, hh:mm a")}</span>
+    ),
     responsive: ["md"],
   },
   {
@@ -60,17 +63,39 @@ const columns = [
       const event = {
         name: `${text.form.name} - ${appointmentType} Visit`,
         details: "Patient visit for needle injury",
-        location: "Jawaharlal Nehru Medical College, AMU,, Medical Rd, AMU Campus, Aligarh, Uttar Pradesh 202002",
-        startTime: nextAppointment.toISOString().split("T")[0].split("-").join(""),
-        endTime: dayjs(nextAppointment).add(1.5, "day").toISOString().split("T")[0].split("-").join(""),
+        location:
+          "Jawaharlal Nehru Medical College, AMU,, Medical Rd, AMU Campus, Aligarh, Uttar Pradesh 202002",
+        startTime: nextAppointment
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .join(""),
+        endTime: dayjs(nextAppointment)
+          .add(1.5, "day")
+          .toISOString()
+          .split("T")[0]
+          .split("-")
+          .join(""),
       };
-  
+
       // make calendar url from event object
       const AddToCalendarUrl = `https://www.google.com/calendar/render?action=TEMPLATE&text=${event.name}&dates=${event.startTime}/${event.endTime}&details=${event.details}&location=${event.location}&sf=true&output=xml`;
 
       return (
         <Space size="middle">
-          <Tag color={appointmentType === "First" ? "green" : appointmentType === "Second" ? "yellow" : appointmentType === "Third" ? "orange" : "red"}>{dayjs(nextAppointment).format("DD/MM/YYYY, hh:mm a")}</Tag>
+          <Tag
+            color={
+              appointmentType === "First"
+                ? "green"
+                : appointmentType === "Second"
+                ? "yellow"
+                : appointmentType === "Third"
+                ? "orange"
+                : "red"
+            }
+          >
+            {dayjs(nextAppointment).format("DD/MM/YYYY, hh:mm a")}
+          </Tag>
           {!expired && (
             <a href={AddToCalendarUrl} target="_blank" rel="noreferrer">
               {" "}
@@ -80,7 +105,6 @@ const columns = [
         </Space>
       );
     },
-
   },
 
   {
@@ -104,7 +128,7 @@ const columns = [
     dataIndex: "id",
     key: "id",
     render: (text, record) => (
-      <Link to={`/forms/needle-stick/${text}`} size="middle">
+      <Link href={`/forms/needle-stick/${text}`} size="middle">
         Edit
       </Link>
     ),
@@ -119,7 +143,7 @@ const Dashboard = () => {
     const fetchData = async () => {
       setIsLoading(true);
       try {
-        const resp = await axios.get(process.env.REACT_APP_BACKEND + "/api/form/getAll");
+        const resp = await axios.get("/api/form/getAll");
         if (resp.status === 200) {
           const mappedData = resp.data.map((item) => {
             return {
@@ -128,7 +152,6 @@ const Dashboard = () => {
             };
           });
           setData(mappedData);
-          
         }
       } catch (error) {
         setIsError(true);
@@ -140,10 +163,12 @@ const Dashboard = () => {
   }, []);
 
   return (
-    <div>
-      <h2>Dashboard</h2>
-      <Table columns={columns} dataSource={data} loading={isLoading} />
-    </div>
+    <Protect level={1}>
+      <div>
+        <h2>Dashboard</h2>
+        <Table columns={columns} dataSource={data} loading={isLoading} />
+      </div>
+    </Protect>
   );
 };
 

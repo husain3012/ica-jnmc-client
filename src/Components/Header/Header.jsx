@@ -1,35 +1,45 @@
 import { Layout, Menu, Breadcrumb } from "antd";
 import { useContext } from "react";
-import authContext from "../../context/authContext";
-import { Link } from "react-router-dom";
-const { Header, Content, Footer } = Layout;
+import authAtom from "../../context/authAtom";
+import Link from "next/link";
+import { useRecoilValue } from "recoil";
+const { Header } = Layout;
 const AppHeader = () => {
-  const { auth } = useContext(authContext);
+  const auth = useRecoilValue(authAtom);
+  
   const level = auth.user?.level || Infinity;
+
+  const menuItems = [
+    {
+      key: "1",
+      label: <Link href="/">Home</Link>,
+    }
+  ]
+  if(level <= 2) {
+    menuItems.push({
+      key: "2",
+      label:  <Link href="/forms/needle-stick">Needle Stick</Link>,
+    })
+  }
+  if(level <= 1) {
+    menuItems.push({
+      key: "3",
+      label:  <Link href="/dashboard">Dashboard</Link>,
+      // path: "/dashboard",
+    })
+  }
+  if(level <= 0) {
+    menuItems.push({
+      key: "4",
+      label:  <Link href="/admin">Admin</Link>,
+      // path: "/admin",
+    })
+  }
 
   return (
     <Header>
       <div className="logo" />
-      <Menu  theme="dark" mode="horizontal">
-        <Menu.Item key="1">
-          <Link to="/">Home</Link>
-        </Menu.Item>
-        {level <= 2 ? (
-          <Menu.Item key="2">
-            <Link to="/forms/needle-stick">Needle Stick</Link>
-          </Menu.Item>
-        ) : null}
-        {level <= 1 ? (
-          <Menu.Item key="3">
-            <Link to="/dashboard">Dashboard</Link>
-          </Menu.Item>
-        ) : null}
-        {level <= 0 ? (
-          <Menu.Item key="4">
-            <Link to="/admin">Admin</Link>
-          </Menu.Item>
-        ) : null}
-      </Menu>
+      <Menu  theme="dark" mode="horizontal" items={menuItems}  />
     </Header>
   );
 };

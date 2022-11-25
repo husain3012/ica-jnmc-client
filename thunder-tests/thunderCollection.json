@@ -1,0 +1,24 @@
+[
+  {
+    "_id": "7704fb62-c93b-4020-b046-a3d3c122a834",
+    "colName": "Development",
+    "created": "2022-11-17T15:19:13.558Z",
+    "sortNum": 10000,
+    "folders": [
+      {
+        "_id": "9f98bb2a-c0f2-4053-8676-3191d375ab91",
+        "name": "Auth",
+        "containerId": "",
+        "created": "2022-11-17T15:19:31.562Z",
+        "sortNum": 10000
+      },
+      {
+        "_id": "a2e9bf5d-18fd-4433-90bc-247854947cf1",
+        "name": "Forms",
+        "containerId": "",
+        "created": "2022-11-17T16:26:37.907Z",
+        "sortNum": 20000
+      }
+    ]
+  }
+]

@@ -35,7 +35,7 @@ const DrawerMenu = ({ onClose, visible }) => {
    
 
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/settings/sendReminders");
+      const res = await axios.post("/api/settings/sendReminders");
       if (res.status === 200) {
         message.success("Email reminders sent successfully");
       }
@@ -70,7 +70,7 @@ const Admin = () => {
   const fetchUsers = async () => {
     try {
       setIsLoadingUsers(true);
-      const res = await axios.get(process.env.REACT_APP_BACKEND + "/api/user/all");
+      const res = await axios.get("/api/user/all");
       if (res.status === 200) {
         const mappedData = res.data.map((item) => {
           return {
@@ -95,7 +95,7 @@ const Admin = () => {
   const createUserSubmitHandler = async (values) => {
     setIsLoadingCreate(true);
     try {
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/signup", values);
+      const res = await axios.post("/api/user/signup", values);
       if (res.status === 201) {
         notification.success({
           message: "User Created",

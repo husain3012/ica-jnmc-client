@@ -1,49 +1,61 @@
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Input, Button, Checkbox, notification } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
-import authContext from "../../context/authContext";
+import authAtom from "../../context/authAtom";
 import axios from "axios";
-import { Link, useNavigate, useSearchParams } from "react-router-dom";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import { useRecoilState } from "recoil";
 
 const Login = () => {
-  const navigate = useNavigate();
-  const { login, auth } = useContext(authContext);
+  const router = useRouter();
+  const [userAuth, setUserAuth] = useRecoilState(authAtom);
   const [loading, setLoading] = useState(false);
-  const [loginParams] = useSearchParams();
+  const [initialValues, setInitialValues] = useState({
+    username: "",
+    password: "",
+  });
 
-  const initialValues = {
-    username: loginParams.get("username") || "",
-    password: loginParams.get("password") || "",
-    remember: false,
-  };
+  const { query } = router;
 
   useEffect(() => {
-    if (auth.isAuthenticated) {
-      navigate("/");
+    if (query?.email) {
+      setInitialValues({
+        username: query.username,
+        password: query.password,
+      });
+    }
+  }, [query]);
+
+  useEffect(() => {
+    if (userAuth.isAuthenticated) {
+      router.replace(query?.redirect || "/");
     }
     return () => {
       setLoading(false);
     };
-  }, [auth.isAuthenticated, navigate]);
+  }, [query?.redirect, router, userAuth.isAuthenticated]);
   const onFinish = async (values) => {
     const { remember, password } = values;
     const username = values.username.trim();
     try {
       setLoading(true);
-      const res = await axios.post(process.env.REACT_APP_BACKEND + "/api/user/login", {
+      const res = await axios.post("/api/user/login", {
         username,
         password,
       });
 
       if (res.status === 200) {
-        login(res.data.user);
         // save user to local storage
         if (remember && username !== "guest") {
-          localStorage.setItem("user", JSON.stringify(res.data.user));
+          window?.localStorage?.setItem("user", JSON.stringify(res.data.user));
         } else {
-          localStorage.removeItem("user");
+          window?.localStorage?.removeItem("user");
         }
-        navigate("/");
+        setUserAuth({
+          isAuthenticated: true,
+          user: res.data.user,
+        });
       }
       setLoading(false);
     } catch (error) {
@@ -76,7 +88,10 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="User ID Or Email" />
+        <Input
+          prefix={<UserOutlined className="site-form-item-icon" />}
+          placeholder="User ID Or Email"
+        />
       </Form.Item>
       <Form.Item
         name="password"
@@ -87,26 +102,38 @@ const Login = () => {
           },
         ]}
       >
-        <Input prefix={<LockOutlined className="site-form-item-icon" />} type="password" placeholder="Password" />
+        <Input
+          prefix={<LockOutlined className="site-form-item-icon" />}
+          type="password"
+          placeholder="Password"
+        />
       </Form.Item>
-      {loginParams.get("password") ? null : (
+      {query?.password ? null : (
         <Form.Item>
           <Form.Item name="remember" valuePropName="checked" noStyle>
             <Checkbox>Remember me</Checkbox>
           </Form.Item>
-          {/* link to mail */}
+          {/* Link href mail */}
 
-          <a className="login-form-forgot" href="mailto:husainshahidrao@gmail.com?subject=Change Password for ICA-JNMC&body=send your username and the new password to this mail">
+          <a
+            className="login-form-forgot"
+            href="mailto:husainshahidrao@gmail.com?subject=Change Password for ICA-JNMC&body=send your username and the new password to this mail"
+          >
             Forgot password
           </a>
         </Form.Item>
       )}
 
       <Form.Item>
-        <Button loading={loading} type="primary" htmlType="submit" className="login-form-button">
+        <Button
+          loading={loading}
+          type="primary"
+          htmlType="submit"
+          className="login-form-button"
+        >
           Log in
         </Button>
-        <Link to="/" style={{ marginLeft: "10px" }}>
+        <Link href="/" style={{ marginLeft: "10px" }}>
           <Button htmlType="button" className="login-form-button">
             Go Back
           </Button>
