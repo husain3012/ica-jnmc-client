@@ -13,7 +13,11 @@
       },
       {
         "name": "token",
-        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxNzA0Nzc2NzgyODgyNDA2NSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZW1haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY2OTg5NDgxNn0.W8fUCcwbLTbQLelmXQd98RCbafgtbyoktBDiT4zFvIc"
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxODYyNjA1MzIxMzY1MDk0NSIsInVzZXJfaWQiOiJndWVzdCIsImVtYWlsIjoiZ3Vlc3RAcGVwam5tYy5jb20iLCJsZXZlbCI6NCwiaWF0IjoxNjY5OTI0NzgyfQ.Cl0URkPyYd5_KHN9JxI-MicmlOkbTC0pYowRqN-ph-I"
+      },
+      {
+        "name": "adminToken",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxNzA0Nzc2NzgyODgyNDA2NSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZW1haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY2OTkyNDcwMn0.O_2kgB_x67oALmkvptIZJbY03NdzVjnIdXvXIck6JWc"
       }
     ]
   }

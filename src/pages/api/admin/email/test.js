@@ -1,7 +1,9 @@
 import db from "../../../../DB/config";
 import { apiHandler } from "../../../../helpers/api/api-handler";
 import { sendEmail } from "../../../../utils/sendMail";
-
+import ejs from "ejs";
+import path from "path";
+__dirname = path.resolve();
 export default apiHandler(async (req, res) => {
   switch (req.method) {
     case "POST":
@@ -14,12 +16,14 @@ export default apiHandler(async (req, res) => {
 const testEmailService = async (req, res) => {
   const { email } = req.body;
   try {
+    const emailTemplate = await ejs.renderFile(`${__dirname}/src/templates/test.ejs`, {
+      heading:"Test Email",
+      body:"This is a test email",
+    });
     const emailResp = await sendEmail({
       email: email,
       subject: "Test Email",
-      message: `
-            This is a test email from PEP JNMC webapp.
-        `,
+      html: emailTemplate,
     });
     return res.status(200).json({
       message: "Email sent",

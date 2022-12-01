@@ -6,7 +6,12 @@ BigInt.prototype.toJSON = function () {
 
 function apiHandler(
   handler,
-  options = { auth: true, errorHandler: true, disabled: false }
+  options = {
+    auth: true,
+    errorHandler: true,
+    disabled: false,
+    accessLevel: Infinity,
+  }
 ) {
   return async (req, res) => {
     if (options.disabled) {
@@ -16,7 +21,7 @@ function apiHandler(
       // global middleware
       if (options.auth) {
         await jwtMiddleware(req, res);
-        if (!req.auth) {
+        if (!req.auth || parseInt(req.auth.level) > options.accessLevel) {
           return res.status(401).end(`Unauthorized`);
         }
         const { id, user_id, email, level, iat } = req.auth;

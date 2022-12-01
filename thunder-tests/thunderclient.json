@@ -27,7 +27,7 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-11-17T16:07:46.709Z",
-    "modified": "2022-12-01T11:48:26.598Z",
+    "modified": "2022-12-01T19:59:42.584Z",
     "headers": [],
     "params": [],
     "body": {
@@ -46,12 +46,12 @@
     "method": "GET",
     "sortNum": 30000,
     "created": "2022-11-17T16:26:45.917Z",
-    "modified": "2022-11-25T22:22:38.396Z",
+    "modified": "2022-12-01T20:00:07.199Z",
     "headers": [],
     "params": [],
     "auth": {
       "type": "bearer",
-      "bearer": "{{token}}"
+      "bearer": "{{adminToken}}"
     },
     "tests": []
   },
@@ -87,12 +87,12 @@
     "method": "POST",
     "sortNum": 50000,
     "created": "2022-11-25T22:20:55.014Z",
-    "modified": "2022-11-25T22:52:40.521Z",
+    "modified": "2022-12-01T20:45:04.834Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"id\":\"817049009417093121\",\n  \"email\":\"husanshahidrao@gmail.com\",\n \"phoneNumber\": \"7017919847\"\n  \n}",
+      "raw": "{\n  \"id\":\"817049009417093121\",\n  \"email\":\"husainshahidrao@gmail.com\",\n \"phoneNumber\": \"7017919847\"\n  \n}",
       "form": []
     },
     "auth": {
@@ -124,21 +124,16 @@
     "colId": "7704fb62-c93b-4020-b046-a3d3c122a834",
     "containerId": "2f169e47-c92d-4690-8b91-5db66f2dba01",
     "name": "Trigger reminders",
-    "url": "{{host}}/api/form/reminder",
+    "url": "{{host}}/api/admin/email/trigger",
     "method": "POST",
     "sortNum": 60000,
     "created": "2022-11-25T22:52:07.076Z",
-    "modified": "2022-11-25T22:52:07.076Z",
+    "modified": "2022-12-01T19:59:12.189Z",
     "headers": [],
     "params": [],
-    "body": {
-      "type": "json",
-      "raw": "{\n  \"id\":\"817049009417093121\",\n  \"email\":\"husanshahidrao@gmail.com\",\n \"phoneNumber\": \"7017919847\"\n  \n}",
-      "form": []
-    },
     "auth": {
       "type": "bearer",
-      "bearer": "{{token}}"
+      "bearer": "{{adminToken}}"
     },
     "tests": []
   },
@@ -188,6 +183,24 @@
     "sortNum": 90000,
     "created": "2022-12-01T11:39:51.511Z",
     "modified": "2022-12-01T11:42:53.538Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "d214b84c-9948-45ce-ab0e-a6d8995859b6",
+    "colId": "7704fb62-c93b-4020-b046-a3d3c122a834",
+    "containerId": "2f169e47-c92d-4690-8b91-5db66f2dba01",
+    "name": "Get All reminders",
+    "url": "{{host}}/api/reminder",
+    "method": "GET",
+    "sortNum": 55000,
+    "created": "2022-12-01T20:00:31.891Z",
+    "modified": "2022-12-01T20:00:56.043Z",
     "headers": [],
     "params": [],
     "auth": {
