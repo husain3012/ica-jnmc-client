@@ -14,7 +14,6 @@ export const jwtMiddleware = (req, res) => {
       "/api/user/login",
     ],
   });
-  console.log("req.auth", req.auth);
 
   return util.promisify(middleware)(req, res);
 };

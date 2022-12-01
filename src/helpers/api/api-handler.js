@@ -15,7 +15,6 @@ function apiHandler(
     try {
       // global middleware
       if (options.auth) {
-        console.log("auth middleware", req.headers);
         await jwtMiddleware(req, res);
         if (!req.auth) {
           return res.status(401).end(`Unauthorized`);

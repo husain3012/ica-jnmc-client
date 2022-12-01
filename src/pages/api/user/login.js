@@ -15,8 +15,6 @@ export default apiHandler(
 
 const login = async (req, res) => {
   const { username, password } = req.body;
-  console.log("username", username);
-
   const user = await db.users.findFirst({
     where: {
       password: password,

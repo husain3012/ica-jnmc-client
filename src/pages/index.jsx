@@ -17,9 +17,6 @@ const Home = () => {
     window.localStorage.removeItem("user");
     message.success("Logout successfully");
   };
-  useEffect(() => {
-    console.log("userAuth", userAuth);
-  }, [userAuth]);
 
   return (
     <div

@@ -26,8 +26,7 @@ const getForm = async (req, res) => {
           email: true,
           level: true,
         },
-        
-      }
+      },
     },
   });
 
@@ -48,7 +47,7 @@ const deleteForm = async (req, res) => {
   }
   const { id } = req.query;
 
-  const form = await db.forms.delete({ where: { id } });
+  const form = await db.forms.delete({ where: { id: BigInt(id) } });
   if (!form) {
     return res.status(404).send({
       message: "Form not found",
