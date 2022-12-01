@@ -9,7 +9,10 @@ const Protect = ({ level, children }) => {
   level = level || Infinity;
   const router = useRouter();
   const [auth, setAuthState] = useRecoilState(authAtom);
-  const userLevel = auth.user?.level || Infinity;
+  const userLevel =
+    typeof auth.user?.level === "undefined"
+      ? Infinity
+      : parseInt(auth.user?.level);
   useEffect(() => {
     const currentUrl = router.asPath.split("?")[0];
     setAuthState((prev) => ({

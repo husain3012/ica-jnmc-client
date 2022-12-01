@@ -1,8 +1,6 @@
-const cron = require("node-cron");
-const { Reminder } = require("../models/");
-const { Op } = require("sequelize");
-const { sendEmail } = require("../utils/sendMail");
-const dayjs = require("dayjs");
+import { sendEmail } from "./sendMail";
+import dayjs from "dayjs";
+import db from "../DB/config";
 const cron_intervals = {
   daily: "0 0 * * *",
   weekly: "0 0 * * 0",
@@ -15,11 +13,12 @@ const cron_intervals = {
 };
 
 export const findAndSendReminders = async () => {
-  const reminders = await Reminder.findAll({
+  const reminders = await db.reminders.findMany({
     where: {
       sendAt: {
         // [Op.lte]: new Date(), // for testing
-        [Op.between]: [dayjs().subtract(3, "day").toDate(), dayjs().add(3, "day").toDate()],
+        gte: dayjs().subtract(3, "day").startOf("day").toDate(),
+        lte: dayjs().add(3, "day").endOf("day").toDate(),
       },
     },
   });
@@ -48,5 +47,3 @@ export const emailReminders = cron.schedule(
     scheduled: false,
   }
 );
-
-
