@@ -1,29 +1,38 @@
-import db from "../../../models";
+import db from "../../../DB/config";
 import { getToken } from "../../../utils/jwt";
-import { Op } from "sequelize";
-function handler(req, res) {
-  switch (req.method) {
-    case "POST":
-      return login(req, res);
-    default:
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
-  }
-}
+import { apiHandler } from "../../../helpers/api/api-handler";
+export default apiHandler(
+  async (req, res) => {
+    switch (req.method) {
+      case "POST":
+        return login(req, res);
+      default:
+        return res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  },
+  { auth: false }
+);
 
 const login = async (req, res) => {
   const { username, password } = req.body;
+  console.log("username", username);
 
-
-  const user = await db.User.findOne({
+  const user = await db.users.findFirst({
     where: {
       password: password,
-      [Op.or]: [
-        { user_id: { [Op.eq]: username || "" } },
-        { email: { [Op.eq]: username || "" } },
+      OR: [
+        { user_id: { equals: username || "" } },
+        { email: { equals: username || "" } },
       ],
     },
+    select: {
+      id: true,
+      user_id: true,
+      email: true,
+      level: true,
+    },
   });
-  
+
   if (!user) {
     return res.status(404).send({
       message: "Invalid credentials",
@@ -38,14 +47,7 @@ const login = async (req, res) => {
   });
   return res.json({
     message: "User logged in",
-    user: {
-      id: user.id,
-      user_id: user.user_id,
-      email: user.email,
-      level: user.level,
-      token,
-    },
+    user,
+    token,
   });
 };
-
-export default handler;

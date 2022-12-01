@@ -9,8 +9,9 @@ const authAtom = atom({
   key: "Auth",
   default: {
     isAuthenticated: !!localUser,
-    user: localUser,
+    user: localUser?.user,
     showContent: false,
+    token: localUser?.token,
   },
 });
 export default authAtom;

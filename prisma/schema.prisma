@@ -1,0 +1,73 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "cockroachdb"
+  url      = env("DATABASE_URL")
+}
+
+model forms {
+  id          BigInt      @id(map: "primary") @default(autoincrement())
+  form        Json
+  firstVisit  DateTime?   @db.Timestamptz(6)
+  secondVisit DateTime?   @db.Timestamptz(6)
+  thirdVisit  DateTime?   @db.Timestamptz(6)
+  createdAt   DateTime    @default(now())
+  updatedAt   DateTime    @updatedAt
+  userId      BigInt?
+  users       users?      @relation(fields: [userId], references: [id], map: "fk_userId_ref_users")
+  reminders   reminders[]
+}
+
+model needleForms {
+  id        BigInt   @id(map: "primary") @default(autoincrement())
+  createdBy String   @db.String(255)
+  form      Json
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model reminders {
+  id          BigInt    @id(map: "primary") @default(autoincrement())
+  email       String?   @db.String(255)
+  phoneNumber String?   @db.String(255)
+  sendAt      DateTime? @db.Timestamptz(6)
+  subject     String?   @db.String(255)
+  message     String?   @db.String(255)
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  formId      BigInt?
+  forms       forms?    @relation(fields: [formId], references: [id], map: "fk_formId_ref_forms")
+}
+
+model settings {
+  id                BigInt   @id(map: "primary") @default(autoincrement())
+  createdBy         String?  @db.String(255)
+  emailReminders    Boolean? @default(true)
+  whatsappReminders Boolean? @default(false)
+  cronInterval      String?  @default("daily") @db.String(255)
+  serverCrons       Boolean? @default(true)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model users {
+  id        BigInt   @id(map: "primary") @default(autoincrement())
+  user_id   String?  @unique @db.String(255)
+  level     Int
+  role      String?  @default("default") @db.String(255)
+  email     String   @unique @db.String(255)
+  password  String   @db.String(255)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  forms     forms[]
+}
+
+enum enum_users_role {
+  admin
+  hicc
+  medical_officer @map("medical officer")
+  lab
+  default
+}

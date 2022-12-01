@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-17T15:40:42.562Z",
-    "modified": "2022-11-17T15:56:41.448Z",
+    "modified": "2022-12-01T11:36:39.369Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"user_id\":\"admin\",\n  \"email\":\"admin@email.com\",\n  \"password\":\"admin\",\n  \"level\":0\n}",
+      "raw": "{\n  \"user_id\":\"guest\",\n  \"email\":\"guest@pepjnmc.com\",\n  \"password\":\"guest@pepjnmc\",\n  \"level\":4\n}",
       "form": []
     },
     "tests": []
@@ -64,7 +64,7 @@
     "method": "GET",
     "sortNum": 0,
     "created": "2022-11-17T16:41:12.046Z",
-    "modified": "2022-11-17T17:49:08.654Z",
+    "modified": "2022-11-25T22:01:59.588Z",
     "headers": [],
     "params": [
       {
@@ -75,7 +75,7 @@
     ],
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjcyMDczMzU5NzY5NjAwMSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiaHVzYWluc2hhaGlkcmFvQGdtYWlsLmNvbSIsImxldmVsIjoiMCIsImlhdCI6MTY2ODcwMjM1NH0.lGD82lLdbzhEZ7zo5sW01gH1RJtdJMypjM49Wir6tbY "
+      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxNzA0Nzc2NzgyODgyNDA2NSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZW1haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY2OTQxMzcwMn0.IVapwl1L_CxJv84hNco9tauWoAp2lnEcJkufLOJ-E3Q"
     },
     "tests": []
   },
@@ -88,17 +88,17 @@
     "method": "POST",
     "sortNum": 0,
     "created": "2022-11-17T18:38:48.192Z",
-    "modified": "2022-11-17T18:38:52.671Z",
+    "modified": "2022-11-25T22:22:41.306Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"name\":\"Husain Shahid Rao\",\n  \"sex\":\"m\"\n}",
+      "raw": "{\n  \"name\":\"Husain Shahid \",\n  \"sex\":\"f\"\n}",
       "form": []
     },
     "auth": {
       "type": "bearer",
-      "bearer": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6Ijc1MjcyMDczMzU5NzY5NjAwMSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiaHVzYWluc2hhaGlkcmFvQGdtYWlsLmNvbSIsImxldmVsIjoiMCIsImlhdCI6MTY2ODcwMjM1NH0.lGD82lLdbzhEZ7zo5sW01gH1RJtdJMypjM49Wir6tbY "
+      "bearer": "{{token}}"
     },
     "tests": []
   }

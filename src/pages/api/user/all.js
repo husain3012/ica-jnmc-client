@@ -1,5 +1,5 @@
-import models from "../../../models";
 import { apiHandler } from "../../../helpers/api/api-handler";
+import db from "../../../DB/config";
 export default apiHandler(async (req, res) => {
   switch (req.method) {
     case "GET":
@@ -19,9 +19,19 @@ const getAllUsers = async (req, res) => {
   }
   // get all users sorted by createdAt
 
-  const users = await models.User.findAll({
-    order: [["createdAt", "DESC"]],
-    attributes: ["id", "user_id", "email", "level", "role", "createdAt"],
+  const users = await db.users.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    select: {
+      id: true,
+      user_id: true,
+      email: true,
+      level: true,
+      createdAt: true,
+      role: true,
+      updatedAt: true,
+    },
   });
   return res.status(200).json(users);
 };

@@ -4,7 +4,8 @@ import authAtom from "../context/authAtom";
 
 const AxiosWrapper = ({ children }) => {
   const auth = useRecoilValue(authAtom);
-  axios.defaults.headers.common["Authorization"] = `Bearer ${auth.user?.token}`;
+  axios.defaults.headers.common["Authorization"] = `Bearer ${auth?.token}`;
+  
   return children;
 };
 

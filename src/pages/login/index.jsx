@@ -11,21 +11,18 @@ const Login = () => {
   const router = useRouter();
   const [userAuth, setUserAuth] = useRecoilState(authAtom);
   const [loading, setLoading] = useState(false);
-  const [initialValues, setInitialValues] = useState({
-    username: "",
-    password: "",
-  });
+  const [form] = Form.useForm();
 
   const { query } = router;
 
   useEffect(() => {
-    if (query?.email) {
-      setInitialValues({
+    if (query?.username) {
+      form.setFieldsValue({
         username: query.username,
         password: query.password,
       });
     }
-  }, [query]);
+  }, [form, query.password, query.username]);
 
   useEffect(() => {
     if (userAuth.isAuthenticated) {
@@ -48,13 +45,17 @@ const Login = () => {
       if (res.status === 200) {
         // save user to local storage
         if (remember && username !== "guest") {
-          window?.localStorage?.setItem("user", JSON.stringify(res.data.user));
+          window?.localStorage?.setItem(
+            "user",
+            JSON.stringify({ user: res.data.user, token: res.data.token })
+          );
         } else {
           window?.localStorage?.removeItem("user");
         }
         setUserAuth({
           isAuthenticated: true,
           user: res.data.user,
+          token: res.data.token,
         });
       }
       setLoading(false);
@@ -76,8 +77,9 @@ const Login = () => {
       }}
       name="normal_login"
       className="login-form"
-      initialValues={initialValues}
+      initialValues={{ username: "", password: "" }}
       onFinish={onFinish}
+      form={form}
     >
       <Form.Item
         name="username"

@@ -1,4 +1,4 @@
-import models from "../../../models";
+import db from "../../../DB/config";
 import dayjs from "dayjs";
 import { sendEmail } from "../../../utils/sendMail";
 import { apiHandler } from "../../../helpers/api/api-handler";
@@ -13,27 +13,26 @@ const createForm = async (req, res) => {
   const { name, injuryTime } = req.body;
 
   // next visit date
-  const firstVisit = dayjs(injuryTime).add(1.5, "month").format("YYYY-MM-DD");
-  const secondVisit = dayjs(injuryTime).add(3, "month").format("YYYY-MM-DD");
-  const thirdVisit = dayjs(injuryTime).add(6, "month").format("YYYY-MM-DD");
+  const firstVisit = dayjs(injuryTime).add(1.5, "month").toDate();
+  const secondVisit = dayjs(injuryTime).add(3, "month").toDate();
+  const thirdVisit = dayjs(injuryTime).add(6, "month").toDate();
 
-  const newForm = await models.Form.create({
-    form: req.body,
-    firstVisit,
-    secondVisit,
-    thirdVisit,
-  });
-  const findUser = await models.User.findOne({
-    where: {
-      id: req.user.id,
+  const newForm = await db.forms.create({
+    data: {
+      form: req.body,
+      firstVisit,
+      secondVisit,
+      thirdVisit,
+      userId: BigInt(req.user.id),
     },
   });
-  await newForm.setUser(findUser);
 
-  const admins = await models.User.findAll({
-    attributes: ["email"],
+  const admins = await db.users.findMany({
     where: {
       level: 0,
+    },
+    select: {
+      email: true,
     },
   });
   const adminEmails = admins.map((admin) => admin.email);
@@ -49,9 +48,10 @@ const createForm = async (req, res) => {
   } catch (error) {
     console.log(error);
   }
+  console.log(newForm);
 
   return res.status(201).json({
     message: "Form created",
-    newForm,
+    newForm
   });
 };

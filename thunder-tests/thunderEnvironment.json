@@ -10,6 +10,10 @@
       {
         "name": "host",
         "value": "http://localhost:3000"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxNzA0Nzc2NzgyODgyNDA2NSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZW1haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY2OTg5NDgxNn0.W8fUCcwbLTbQLelmXQd98RCbafgtbyoktBDiT4zFvIc"
       }
     ]
   }

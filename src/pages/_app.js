@@ -7,7 +7,7 @@ import reportWebVitals from "../reportWebVitals";
 
 import "antd/dist/antd.css";
 import { RecoilRoot } from "recoil";
-import Protect from "../Components/Layout/Protect";
+// import Protect from "../Components/Layout/Protect";
 import AxiosWrapper from "../Components/AxiosWrapper";
 
 function App({ Component, pageProps }) {

@@ -1,6 +1,5 @@
-import models from "../../../models";
+import db from "../../../DB/config";
 import { apiHandler } from "../../../helpers/api/api-handler";
-import User from "../../../models/user.model";
 
 export default apiHandler(async (req, res) => {
   if (req.method === "GET") {
@@ -18,21 +17,29 @@ const getAllForms = async (req, res) => {
 
   const { currentPage, pageSize } = req.query;
   const searchQuery = {
-    order: [["createdAt", "DESC"]],
-    include: [
-      {
-        model: User,
-        attributes: ["id", "email", "user_id", "level"],
+    orderBy: {
+      createdAt: "desc",
+    },
+    include: {
+      users: {
+        select: {
+          user_id: true,
+          email: true,
+          level: true,
+        },
       },
-    ],
+    },
   };
+
   if (pageSize) {
-    searchQuery.limit = pageSize;
+    searchQuery.take = pageSize;
   }
   if (currentPage && pageSize) {
-    searchQuery.offset = (currentPage - 1) * pageSize;
+    searchQuery.skip = (currentPage - 1) * pageSize;
   }
 
-  const forms = await models.Form.findAll(searchQuery);
+  let forms = await db.forms.findMany(searchQuery);
+
+
   return res.status(200).json(forms);
 };

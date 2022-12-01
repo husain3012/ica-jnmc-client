@@ -1,14 +1,20 @@
-import models from "../../../models";
+import db from "../../../DB/config";
+import { apiHandler } from "../../../helpers/api/api-handler";
+export default apiHandler(
+  async (req, res) => {
+    switch (req.method) {
+      case "POST":
+        return await signupUser(req, res);
 
-const handler = async (req, res) => {
-  switch (req.method) {
-    case "POST":
-      return await signupUser(req, res);
-
-    default:
-      return res.status(405).end(`Method ${req.method} Not Allowed`);
+      default:
+        return res.status(405).end(`Method ${req.method} Not Allowed`);
+    }
+  },
+  {
+    auth: false,
+    disabled: false,
   }
-};
+);
 
 const signupUser = async (req, res) => {
   // check if admin is trying to create a new user
@@ -19,11 +25,13 @@ const signupUser = async (req, res) => {
   // }
 
   const { user_id, email, password, level } = req.body;
-  const user = await models.User.create({
-    user_id,
-    email,
-    password,
-    level,
+  const user = await db.users.create({
+    data: {
+      user_id,
+      email,
+      password,
+      level,
+    },
   });
 
   return res.status(201).json({
@@ -31,5 +39,3 @@ const signupUser = async (req, res) => {
     user,
   });
 };
-
-export default handler;

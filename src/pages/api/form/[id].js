@@ -1,4 +1,4 @@
-import models from "../../../models";
+import db from "../../../DB/config";
 import { apiHandler } from "../../../helpers/api/api-handler";
 
 export default apiHandler(async (req, res) => {
@@ -16,13 +16,27 @@ export default apiHandler(async (req, res) => {
 
 const getForm = async (req, res) => {
   const { id } = req.query;
-  const form = await models.Form.findOne({ where: { id } });
+  const form = await db.forms.findUnique({
+    where: { id: BigInt(id) },
+    include: {
+      users: {
+        select: {
+          id: true,
+          user_id: true,
+          email: true,
+          level: true,
+        },
+        
+      }
+    },
+  });
 
   if (!form) {
     return res.status(404).send({
       message: "Form not found",
     });
   }
+
   return res.status(200).json(form);
 };
 
@@ -34,13 +48,13 @@ const deleteForm = async (req, res) => {
   }
   const { id } = req.query;
 
-  const form = await models.Form.findOne({ where: { id } });
+  const form = await db.forms.delete({ where: { id } });
   if (!form) {
     return res.status(404).send({
       message: "Form not found",
     });
   }
-  form.destroy();
+
   return res.status(200).json({
     message: "Form deleted",
   });
@@ -53,16 +67,12 @@ const updateForm = async (req, res) => {
     });
   }
   const { id } = req.query;
-  const form = await models.Form.findOne({ where: { id } });
+  const form = await db.forms.update({ where: { id }, data: req.body });
   if (!form) {
     return res.status(404).send({
       message: "Form not found",
     });
   }
-  form.update({
-    form: req.body,
-  });
-  form.save();
   return res.status(200).json({
     message: "Form updated",
     form,

@@ -1,14 +1,25 @@
 import { errorHandler } from "./error-handler";
 import { jwtMiddleware } from "./jwt-middleware";
+BigInt.prototype.toJSON = function () {
+  return this.toString();
+};
 
-function apiHandler(handler, protectedRoute = true) {
+function apiHandler(
+  handler,
+  options = { auth: true, errorHandler: true, disabled: false }
+) {
   return async (req, res) => {
-    console.log("apiHandler");
-
+    if (options.disabled) {
+      return res.status(404).end(`This route is disabled`);
+    }
     try {
       // global middleware
-      if (protectedRoute) {
+      if (options.auth) {
+        console.log("auth middleware", req.headers);
         await jwtMiddleware(req, res);
+        if (!req.auth) {
+          return res.status(401).end(`Unauthorized`);
+        }
         const { id, user_id, email, level, iat } = req.auth;
         req.user = {
           id,

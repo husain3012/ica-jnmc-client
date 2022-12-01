@@ -53,7 +53,8 @@ const FormSuccess = () => {
   const reminderFormHandler = async (values) => {
     setIsSetReminderLoading(true);
     try {
-      const res = await axios.post(`/api/form/reminder/${id}`, {
+      const res = await axios.post(`/api/reminder/add`, {
+        id: id,
         email: values.email,
         phoneNumber: values.phoneNumber,
       });

@@ -1,5 +1,5 @@
-import Sequelize from "sequelize";
+import { PrismaClient } from "@prisma/client";
 
-const sequelize = new Sequelize(process.env.DATABASE_URL);
+const db = new PrismaClient();
 
-export default sequelize;
+export default db;
