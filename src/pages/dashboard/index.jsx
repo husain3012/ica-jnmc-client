@@ -3,6 +3,7 @@ import axios from "axios";
 import { Table, Tag, Space, Button, message, Popconfirm } from "antd";
 import Link from "next/link";
 import dayjs from "dayjs";
+import { useRecoilValue } from "recoil";
 import {
   BellTwoTone,
   DeleteOutlined,
@@ -10,12 +11,14 @@ import {
   EyeOutlined,
 } from "@ant-design/icons";
 import Protect from "../../Components/Layout/Protect";
+import authAtom from "../../context/authAtom";
 
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refresh, setRefresh] = useState(true);
+  const auth = useRecoilValue(authAtom);
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -191,19 +194,21 @@ const Dashboard = () => {
                 </Link>
               </Button>
             </a>
-            <Popconfirm
-              onConfirm={() => deleteForm(text)}
-              title="Sure to delete?"
-            >
-              <Button danger>
-                <DeleteOutlined />
-              </Button>
-            </Popconfirm>
+            {auth.user?.level <= 0 && (
+              <Popconfirm
+                onConfirm={() => deleteForm(text)}
+                title="Sure to delete?"
+              >
+                <Button danger>
+                  <DeleteOutlined />
+                </Button>
+              </Popconfirm>
+            )}
           </Space>
         ),
       },
     ],
-    []
+    [auth.user?.level, deleteForm]
   );
 
   useEffect(() => {
