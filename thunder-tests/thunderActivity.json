@@ -101,5 +101,19 @@
       "bearer": "{{token}}"
     },
     "tests": []
+  },
+  {
+    "_id": "82c8bbe2-4487-47f2-81b9-4d856909d7ed",
+    "colId": "history",
+    "containerId": "",
+    "name": "{{host}}/templates/test.ejs",
+    "url": "{{host}}/templates/test.ejs",
+    "method": "GET",
+    "sortNum": 0,
+    "created": "2022-12-02T06:44:32.894Z",
+    "modified": "2022-12-02T06:44:32.894Z",
+    "headers": [],
+    "params": [],
+    "tests": []
   }
 ]

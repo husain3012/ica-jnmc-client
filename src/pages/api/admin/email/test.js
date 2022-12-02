@@ -3,6 +3,8 @@ import { apiHandler } from "../../../../helpers/api/api-handler";
 import { sendEmail } from "../../../../utils/sendMail";
 import ejs from "ejs";
 import path from "path";
+import axios from "axios";
+// get current host
 __dirname = path.resolve();
 export default apiHandler(async (req, res) => {
   switch (req.method) {
@@ -15,14 +17,17 @@ export default apiHandler(async (req, res) => {
 
 const testEmailService = async (req, res) => {
   const { email } = req.body;
+
   try {
-    const emailTemplate = await ejs.renderFile(
-      `${__dirname}/src/templates/test.ejs`,
-      {
-        heading: "Test Email",
-        body: "This is a test email",
-      }
+    const host = req.headers.host;
+    const protocol = req.headers["x-forwarded-proto"] || "http";
+    const testTemplate = await axios.get(
+      `${protocol}://${host}/templates/test.ejs`
     );
+    const emailTemplate = await ejs.render(testTemplate.data, {
+      heading: "Test Email",
+      body: "This is a test email",
+    });
     const emailResp = await sendEmail({
       email: email,
       subject: "Test Email",

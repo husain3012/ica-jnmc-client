@@ -4,6 +4,7 @@ import db from "../DB/config";
 import ejs from "ejs";
 import path from "path";
 import generateCalendarLinks from "./calendar-link";
+
 __dirname = path.resolve();
 
 // const cron_intervals = {
@@ -17,31 +18,33 @@ __dirname = path.resolve();
 //   every_third_day_random_between_8_and_10: "0 0 8-10 */3 * *",
 // };
 
-export const findAndSendReminders = async () => {
+export const findAndSendReminders = async (template) => {
   const reminders = await db.reminders.findMany({
     where: {
       sendAt: {
-        lte: new Date(), // for testing
-        // gte: dayjs().subtract(3, "day").startOf("day").toDate(),
-        // lte: dayjs().add(3, "day").endOf("day").toDate(),
+        // lte: new Date(), // for testing
+        gte: dayjs().subtract(3, "day").startOf("day").toDate(),
+        lte: dayjs().add(3, "day").endOf("day").toDate(),
       },
     },
     include: {
       forms: true,
     },
   });
+ 
   // send email to each user and delete reminder
   for (let reminder of reminders) {
     const { email, phoneNumber, subject, message } = reminder;
 
-    const emailPage = await ejs.renderFile(
-      `${__dirname}/src/templates/reminder-email.ejs`,
-      {
-        heading: subject,
-        body: message,
-        buttonText: "Add Reminder",
-      }
-    );
+    const emailPage = ejs.render(template.data, {
+      heading: subject,
+      body: message,
+      buttonText: "Add Reminder",
+      buttonLink: generateCalendarLinks({
+        name: subject,
+        startTime: dayjs(reminder.sendAt).add(1, "date").toDate(),
+      }).google,
+    });
     sendEmail({
       email,
       subject,

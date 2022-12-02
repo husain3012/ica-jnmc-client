@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-11-17T15:19:47.239Z",
-    "modified": "2022-12-01T11:47:29.700Z",
+    "modified": "2022-12-02T07:03:54.374Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"user_id\":\"guest\",\n  \"email\":\"guest@pepjnmc.com\",\n  \"password\":\"guest@pepjnmc\",\n  \"level\":4\n}",
+      "raw": "{\n  \"user_id\":\"admin\",\n  \"email\":\"admin@pepjnmc.com\",\n  \"password\":\"admin\",\n  \"level\":0\n}",
       "form": []
     },
     "tests": []
@@ -27,12 +27,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-11-17T16:07:46.709Z",
-    "modified": "2022-12-01T19:59:42.584Z",
+    "modified": "2022-12-02T07:04:03.959Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n \n  \"username\":\"guest\",\n  \"password\":\"guest@pepjnmc\"\n \n}",
+      "raw": "{\n \n  \"username\":\"admin\",\n  \"password\":\"admin\"\n \n}",
       "form": []
     },
     "tests": []
@@ -87,12 +87,12 @@
     "method": "POST",
     "sortNum": 50000,
     "created": "2022-11-25T22:20:55.014Z",
-    "modified": "2022-12-01T20:45:04.834Z",
+    "modified": "2022-12-02T07:14:06.916Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"id\":\"817049009417093121\",\n  \"email\":\"husainshahidrao@gmail.com\",\n \"phoneNumber\": \"7017919847\"\n  \n}",
+      "raw": "{\n  \"id\":\"818854130208210945\",\n  \"email\":\"husainshahidrao@gmail.com\",\n \"phoneNumber\": \"7017919847\"\n  \n}",
       "form": []
     },
     "auth": {

@@ -1,6 +1,6 @@
 import dayjs from "dayjs";
-const generateCalendarLinks = (event = {}) => {
-  const name = `${event.name} - ${event.appointmentType} Visit`;
+const generateCalendarLinks = (event = {name:"PEP JNMC", startTime}) => {
+  const name = `${event.name}`;
   const location = "Jawaharlal Nehru Medical College, AMU,, Medical Rd, AMU Campus, Aligarh, Uttar Pradesh 202002";
   const startTime = dayjs(event.startTime).toISOString().split("T")[0].split("-").join("");
   const endTime = dayjs(event.startTime).add(1, "week").toISOString().split("T")[0].split("-").join("");

@@ -1,3 +1,4 @@
+import axios from "axios";
 import db from "../../../../DB/config";
 import { apiHandler } from "../../../../helpers/api/api-handler";
 import { findAndSendReminders } from "../../../../utils/reminderMail";
@@ -12,6 +13,11 @@ export default apiHandler(async (req, res) => {
 });
 
 const triggerEmails = async (req, res) => {
-  const sentReminders = await findAndSendReminders();
+  const host = req.headers.host;
+  const protocol = req.headers["x-forwarded-proto"] || "http";
+  const reminderEmailTemplate = await axios.get(
+    `${protocol}://${host}/templates/reminder.ejs`
+  );
+  const sentReminders = await findAndSendReminders(reminderEmailTemplate);
   return res.status(200).json(sentReminders);
 };

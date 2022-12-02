@@ -93,6 +93,8 @@ const DrawerMenu = ({ onClose, visible }) => {
           placeholder="Enter email to send test email"
           onSearch={testEmail}
           enterButton="Test"
+          loading={sendingTestEmail}
+          
         />
       </div>
       <Divider />

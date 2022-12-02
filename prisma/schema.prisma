@@ -35,6 +35,7 @@ model reminders {
   sendAt      DateTime? @db.Timestamptz(6)
   subject     String?   @db.String(255)
   message     String?   @db.String(255)
+  eventDate   DateTime? @db.Timestamptz(6)
   createdAt   DateTime  @default(now())
   updatedAt   DateTime  @updatedAt
   formId      BigInt?
