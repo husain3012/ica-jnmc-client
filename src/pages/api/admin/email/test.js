@@ -16,10 +16,13 @@ export default apiHandler(async (req, res) => {
 const testEmailService = async (req, res) => {
   const { email } = req.body;
   try {
-    const emailTemplate = await ejs.renderFile(`${__dirname}/src/templates/test.ejs`, {
-      heading:"Test Email",
-      body:"This is a test email",
-    });
+    const emailTemplate = await ejs.renderFile(
+      `${__dirname}/src/templates/test.ejs`,
+      {
+        heading: "Test Email",
+        body: "This is a test email",
+      }
+    );
     const emailResp = await sendEmail({
       email: email,
       subject: "Test Email",
@@ -30,6 +33,7 @@ const testEmailService = async (req, res) => {
       emailResp,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({
       message: "Email not sent",
       error,
