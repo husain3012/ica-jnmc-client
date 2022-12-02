@@ -100,7 +100,7 @@ const FormSuccess = () => {
               <a
                 href={
                   generateCalendarLinks({
-                    name: `${formData.form.name} - First Visit`,
+                    name: `${formData.form?.name} - First Visit`,
                     startTime: formData.firstVisit,
                   }).google
                 }
@@ -121,7 +121,7 @@ const FormSuccess = () => {
               <a
                 href={
                   generateCalendarLinks({
-                    name: `${formData.form.name} - Second Visit`,
+                    name: `${formData.form?.name} - Second Visit`,
                     startTime: formData.secondVisit,
                   }).google
                 }
@@ -141,7 +141,7 @@ const FormSuccess = () => {
               <a
                 href={
                   generateCalendarLinks({
-                    name: `${formData.form.name} - Third Visit`,
+                    name: `${formData.form?.name} - Third Visit`,
                     startTime: formData.thirdVisit,
                   }).google
                 }

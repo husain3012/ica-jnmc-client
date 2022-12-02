@@ -21,7 +21,7 @@ const isLocalhost = (typeof window !== 'undefined') && Boolean(
 export function register(config) {
 
 
-  if (process.env.NODE_ENV === "production" && "serviceWorker" in navigator) {
+  if (typeof(window)!=="undefined" && process.env.NODE_ENV === "production" && "serviceWorker" in window.navigator) {
     // The URL constructor is available in all browsers that support SW.
     const publicUrl = new URL(process.env.PUBLIC_URL, window.location.href);
     if (publicUrl.origin !== window.location.origin) {
