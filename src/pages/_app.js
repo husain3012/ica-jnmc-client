@@ -8,7 +8,11 @@ import "antd/dist/antd.css";
 import { RecoilRoot } from "recoil";
 // import Protect from "../Components/Layout/Protect";
 import AxiosWrapper from "../Components/AxiosWrapper";
-
+  if (typeof window !== "undefined") {
+    caches.keys().then(function (names) {
+      for (let name of names) caches.delete(name);
+    });
+  }
 function App({ Component, pageProps }) {
   return (
     <RecoilRoot>
