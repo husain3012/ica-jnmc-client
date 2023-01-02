@@ -13,10 +13,16 @@ import {
   Drawer,
   Popconfirm,
   Space,
+  Upload,
 } from "antd";
 import dayjs from "dayjs";
 import Protect from "../../Components/Layout/Protect";
+import { downloadCsvData } from "../../utils/backup";
+import { DownloadOutlined, UploadOutlined } from "@ant-design/icons";
+import BackupUpload from "../../Components/FileUpload/BackupUpload";
+
 const { Option } = Select;
+
 const columns = [
   {
     title: "Email",
@@ -47,6 +53,7 @@ const columns = [
 
 const DrawerMenu = ({ onClose, visible }) => {
   const [sendingTestEmail, setSendingTestEmail] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
   const triggerEmailReminders = async () => {
     try {
       const res = await axios.post("/api/reminder/trigger");
@@ -94,7 +101,6 @@ const DrawerMenu = ({ onClose, visible }) => {
           onSearch={testEmail}
           enterButton="Test"
           loading={sendingTestEmail}
-          
         />
       </div>
       <Divider />
@@ -108,6 +114,23 @@ const DrawerMenu = ({ onClose, visible }) => {
       >
         <Button type="primary">Trigger Email Reminders</Button>
       </Popconfirm>
+      <Divider />
+      <Button.Group>
+        <Popconfirm
+          title="Download backup of all forms in CSV format?"
+          onConfirm={downloadCsvData.bind(this, setLoadingDownload)}
+          okText="Yes"
+          cancelText="No"
+          disabled={loadingDownload}
+        >
+          <Button loading={loadingDownload} type="primary">
+            <DownloadOutlined /> Backup Forms
+          </Button>
+        </Popconfirm>
+        <Divider type="vertical" />
+
+        <BackupUpload />
+      </Button.Group>
     </Drawer>
   );
 };

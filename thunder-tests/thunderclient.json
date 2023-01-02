@@ -8,12 +8,12 @@
     "method": "POST",
     "sortNum": 10000,
     "created": "2022-11-17T15:19:47.239Z",
-    "modified": "2022-12-02T07:03:54.374Z",
+    "modified": "2023-01-02T11:44:13.565Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n  \"user_id\":\"admin\",\n  \"email\":\"admin@pepjnmc.com\",\n  \"password\":\"admin\",\n  \"level\":0\n}",
+      "raw": "{\n  \"user_id\":\"guest\",\n  \"email\":\"guest@pepjnmc.com\",\n  \"password\":\"guest@pepjnmc\",\n  \"level\":4\n}",
       "form": []
     },
     "tests": []
@@ -206,6 +206,24 @@
     "auth": {
       "type": "bearer",
       "bearer": "{{token}}"
+    },
+    "tests": []
+  },
+  {
+    "_id": "2e837be7-4b99-4b7e-9c88-b241682ab305",
+    "colId": "7704fb62-c93b-4020-b046-a3d3c122a834",
+    "containerId": "89415513-3db2-48d8-99ff-ab71ab958db7",
+    "name": "Download Backup",
+    "url": "{{host}}/api/admin/settings/backup",
+    "method": "GET",
+    "sortNum": 100000,
+    "created": "2022-12-03T07:46:30.976Z",
+    "modified": "2022-12-03T07:47:10.497Z",
+    "headers": [],
+    "params": [],
+    "auth": {
+      "type": "bearer",
+      "bearer": "{{adminToken}}"
     },
     "tests": []
   }

@@ -18,6 +18,6 @@ const triggerEmails = async (req, res) => {
   const reminderEmailTemplate = await axios.get(
     `${protocol}://${host}/templates/reminder.ejs`
   );
-  const sentReminders = await findAndSendReminders(reminderEmailTemplate);
+  const sentReminders = await findAndSendReminders(reminderEmailTemplate.data);
   return res.status(200).json(sentReminders);
 };

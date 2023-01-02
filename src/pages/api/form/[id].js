@@ -60,13 +60,17 @@ const deleteForm = async (req, res) => {
 };
 
 const updateForm = async (req, res) => {
+
   if (!req.user || req.user.level > 1) {
     return res.status(401).send({
       message: "Unauthorized",
     });
   }
+  
   const { id } = req.query;
-  const form = await db.forms.update({ where: { id }, data: req.body });
+  const form = await db.forms.update({ where: { id:BigInt(id) }, data: {
+    form: req.body,
+  } });
   if (!form) {
     return res.status(404).send({
       message: "Form not found",

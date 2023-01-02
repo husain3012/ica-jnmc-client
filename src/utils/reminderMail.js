@@ -27,16 +27,16 @@ export const findAndSendReminders = async (template) => {
         lte: dayjs().add(3, "day").endOf("day").toDate(),
       },
     },
-    include: {
-      forms: true,
-    },
+    // include: {
+    //   forms: true,
+    // },
   });
  
   // send email to each user and delete reminder
   for (let reminder of reminders) {
     const { email, phoneNumber, subject, message } = reminder;
 
-    const emailPage = ejs.render(template.data, {
+    const emailPage = ejs.render(template, {
       heading: subject,
       body: message,
       buttonText: "Add Reminder",

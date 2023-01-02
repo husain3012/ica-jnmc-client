@@ -9,16 +9,20 @@ import {
   DeleteOutlined,
   EditOutlined,
   EyeOutlined,
+  DownloadOutlined,
 } from "@ant-design/icons";
 import Protect from "../../Components/Layout/Protect";
 import authAtom from "../../context/authAtom";
-
+import ViewFormModal from "../../Components/Form/ViewFormModal";
 const Dashboard = () => {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [isError, setIsError] = useState(false);
   const [refresh, setRefresh] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [loadingDownload, setLoadingDownload] = useState(false);
   const auth = useRecoilValue(authAtom);
+ 
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -145,7 +149,7 @@ const Dashboard = () => {
                     : "red"
                 }
               >
-                {dayjs(nextAppointment).format("DD/MM/YYYY, hh:mm a")}
+                {expired?"Expired":dayjs(nextAppointment).format("DD/MM/YYYY, hh:mm a")}
               </Tag>
               {!expired && (
                 <a href={AddToCalendarUrl} target="_blank" rel="noreferrer">
@@ -181,18 +185,16 @@ const Dashboard = () => {
         render: (text, record) => (
           <Space>
             <a>
-              <Button>
-                <Link href={`/forms/needle-stick/${text}`} size="middle">
-                  <EyeOutlined color="blue" />
-                </Link>
+              <Button onClick={() => setShowModal(text)}>
+                <EyeOutlined color="blue" />
               </Button>
             </a>
             <a>
-              <Button>
-                <Link href={`/forms/needle-stick/${text}`} size="middle">
+              <Link href={`/forms/needle-stick?id=${text}`} size="middle">
+                <Button>
                   <EditOutlined />
-                </Link>
-              </Button>
+                </Button>
+              </Link>
             </a>
             {auth.user?.level <= 0 && (
               <Popconfirm
@@ -221,7 +223,9 @@ const Dashboard = () => {
     <Protect level={1}>
       <div>
         <h2>Dashboard</h2>
+        
         <Table columns={columns} dataSource={data} loading={isLoading} />
+        <ViewFormModal setShowModal={setShowModal} id={showModal} />
       </div>
     </Protect>
   );

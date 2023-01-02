@@ -9,6 +9,7 @@ export const transporter = nodeMailer.createTransport({
 
 // function to send email
 export const sendEmail = async ({ email, subject, message, html }) => {
+  if (process.env.MAIL_SERVICE === "off") return;
   const msg = {
     to: email,
     from: process.env.GMAIL_USER,
