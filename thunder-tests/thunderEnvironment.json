@@ -20,5 +20,27 @@
         "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgxNzA0Nzc2NzgyODgyNDA2NSIsInVzZXJfaWQiOiJhZG1pbiIsImVtYWlsIjoiYWRtaW5AZW1haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY2OTkyNDcwMn0.O_2kgB_x67oALmkvptIZJbY03NdzVjnIdXvXIck6JWc"
       }
     ]
+  },
+  {
+    "_id": "7f815eea-3b3f-4ac4-b654-98147fa9a533",
+    "name": "Production",
+    "default": false,
+    "sortNum": 20000,
+    "created": "2023-01-28T11:21:43.948Z",
+    "modified": "2023-01-28T11:21:43.948Z",
+    "data": [
+      {
+        "name": "host",
+        "value": "https://pepjnmc.vecel.app"
+      },
+      {
+        "name": "adminToken",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyNzY4MjA5MTI1Mjc3Njk2MSIsInVzZXJfaWQiOiJhZG1pbmhpY2MiLCJlbWFpbCI6ImZhdGltYXNhbG1hbnNoYWhAZ21haWwuY29tIiwibGV2ZWwiOjAsImlhdCI6MTY3NDkwNDE4N30.RuIfOrtoA_Vd_KzqDfFWIaGZNj_7rGfadNMlx-EmsOs"
+      },
+      {
+        "name": "token",
+        "value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjgyNzY4NTEyNDY1MDQwMTc5MyIsInVzZXJfaWQiOiJndWVzdCIsImVtYWlsIjoiZ3Vlc3RAcGVwam5tYy5jb20iLCJsZXZlbCI6NCwiaWF0IjoxNjc0OTA0OTc5fQ.Z6XlWL18-LX9g3rlrGJMXnm9ueD7yVwHVKXSXeLYWSU"
+      }
+    ]
   }
 ]

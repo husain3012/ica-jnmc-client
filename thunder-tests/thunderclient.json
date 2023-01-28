@@ -27,12 +27,12 @@
     "method": "POST",
     "sortNum": 20000,
     "created": "2022-11-17T16:07:46.709Z",
-    "modified": "2022-12-02T07:04:03.959Z",
+    "modified": "2023-01-28T11:25:46.794Z",
     "headers": [],
     "params": [],
     "body": {
       "type": "json",
-      "raw": "{\n \n  \"username\":\"admin\",\n  \"password\":\"admin\"\n \n}",
+      "raw": "{\n \n  \"username\":\"guest\",\n  \"password\":\"guest@pepjnmc\"\n \n}",
       "form": []
     },
     "tests": []
